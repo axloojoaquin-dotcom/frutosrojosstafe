@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutos rojos Santa Fe</title>
+    <link rel="icon" href="icono.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <img src="icono.jpg" alt="Logo Frutos Rojos Santa Fe" class="logo-header">
+        <h1>Frutos rojos Santa Fe</h1>
+    </header>
+
+    <main class="container">
+        <div class="product-card">
+            <div class="badge">Frescos & Congelados</div>
+            <div class="img-container">
+                <img src="producto.jpg" alt="Frutos Rojos Congelados">
+            </div>
+            <h2>Frutos Rojos Congelados (1kg)</h2>
+            <p class="description">Selección premium de frutillas, frambuesas, moras y arándanos. Ideal para smoothies y postres.</p>
+            
+            <div class="price" id="precio-unitario">$12.500 / kg</div>
+
+            <div class="quantity-selector">
+                <button type="button" id="btn-minus">-</button>
+                <span id="cantidad">1</span> kg
+                <button type="button" id="btn-plus">+</button>
+            </div>
+
+            <div class="total-price">Total: <strong id="total-text">$12.500</strong></div>
+
+            <button class="btn-primary" id="btn-abrir-checkout">Comprar Ahora</button>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modal-checkout">
+        <div class="modal-content">
+            <button class="close-modal" id="btn-cerrar-modal">&times;</button>
+            <h3>Datos para el Envío 🚚</h3>
+            <form id="form-pedido">
+                <label for="nombre">Nombre y Apellido</label>
+                <input type="text" id="nombre" required placeholder="Ej: Maria Gonzalez">
+
+                <label for="telefono">WhatsApp / Teléfono</label>
+                <input type="tel" id="telefono" required placeholder="Ej: 3425123456">
+
+                <label for="entrega">Método de Entrega</label>
+                <select id="entrega" required>
+                    <option value="Envío a domicilio (Santa Fe Cap.)">Envío a domicilio (Santa Fe Cap.)</option>
+                    <option value="Retiro en Punto de Encuentro">Retiro en Punto de Encuentro</option>
+                </select>
+
+                <label for="direccion">Dirección de Entrega / Notas</label>
+                <input type="text" id="direccion" required placeholder="Calle, Número, Barrio">
+
+                <button type="submit" class="btn-primary btn-pay">Ir a Pagar con Mercado Pago</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loading-spinner">
+        <div class="spinner"></div>
+        <p>Conectando con la pasarela de pago...<br><small>Aguardá unos segundos por favor.</small></p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
