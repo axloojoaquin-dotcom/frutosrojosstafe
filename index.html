@@ -4,69 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frutos rojos Santa Fe</title>
-    <link rel="icon" href="icono.jpg" type="image/jpeg">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <div id="status-banner" class="status-banner hidden"></div>
+
     <header class="header">
-        <img src="icono.jpg" alt="Logo Frutos Rojos Santa Fe" class="logo-header">
-        <h1>Frutos rojos Santa Fe</h1>
+        <div class="logo-area">
+            <span class="icon">🍓</span>
+            <h1>Frutos rojos Santa Fe</h1>
+        </div>
+        <p class="tagline">Calidad premium directo a tu mesa</p>
     </header>
 
     <main class="container">
         <div class="product-card">
-            <div class="badge">Frescos & Congelados</div>
+            <div class="badge">100% Natural & Congelado</div>
             <div class="img-container">
-                <img src="producto.jpg" alt="Frutos Rojos Congelados">
+                <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80" alt="Frutos Rojos Congelados">
             </div>
-            <h2>Frutos Rojos Congelados (1kg)</h2>
-            <p class="description">Selección premium de frutillas, frambuesas, moras y arándanos. Ideal para smoothies y postres.</p>
             
-            <div class="price" id="precio-unitario">$12.500 / kg</div>
+            <div class="product-info">
+                <h2>Frutos Rojos Congelados (1 kg)</h2>
+                <p class="price">$<span id="unit-price">8500</span> <small>/ kg</small></p>
+                <p class="description">
+                    Mix premium IQF (Frutillas, Arándanos, Frambuesas y Moras). Conservan todo su sabor, nutrientes y frescura.
+                </p>
 
-            <div class="quantity-selector">
-                <button type="button" id="btn-minus">-</button>
-                <span id="cantidad">1</span> kg
-                <button type="button" id="btn-plus">+</button>
+                <div class="quantity-selector">
+                    <label>Cantidad (kg):</label>
+                    <div class="counter">
+                        <button type="button" id="btn-minus">-</button>
+                        <span id="qty-display">1</span>
+                        <button type="button" id="btn-plus">+</button>
+                    </div>
+                </div>
+
+                <div class="total-row">
+                    <span>Total a pagar:</span>
+                    <span class="total-price">$<span id="total-display">8500</span></span>
+                </div>
+            </div>
+        </div>
+
+        <form id="checkout-form" class="checkout-form">
+            <h3>📋 Datos de Envío / Contacto</h3>
+            
+            <div class="form-group">
+                <label for="nombre">Nombre y Apellido *</label>
+                <input type="text" id="nombre" required placeholder="Ej: Juan Pérez">
             </div>
 
-            <div class="total-price">Total: <strong id="total-text">$12.500</strong></div>
+            <div class="form-group">
+                <label for="telefono">Teléfono / WhatsApp *</label>
+                <input type="tel" id="telefono" required placeholder="Ej: 342 1234567">
+            </div>
 
-            <button class="btn-primary" id="btn-abrir-checkout">Comprar Ahora</button>
-        </div>
+            <div class="form-group">
+                <label for="metodo-entrega">Opción de Entrega *</label>
+                <select id="metodo-entrega" required>
+                    <option value="Envío a domicilio">Envío a domicilio (Santa Fe Capital)</option>
+                    <option value="Retiro en punto de encuentro">Retiro en punto de encuentro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Dirección completa *</label>
+                <textarea id="direccion" rows="2" required placeholder="Ej: San Martín 1234, Piso 2 B"></textarea>
+            </div>
+
+            <button type="submit" id="btn-submit" class="btn-pay">
+                <span>Confirmar e Ir a Pagar</span> 💳
+            </button>
+        </form>
     </main>
 
-    <div class="modal-overlay" id="modal-checkout">
-        <div class="modal-content">
-            <button class="close-modal" id="btn-cerrar-modal">&times;</button>
-            <h3>Datos para el Envío 🚚</h3>
-            <form id="form-pedido">
-                <label for="nombre">Nombre y Apellido</label>
-                <input type="text" id="nombre" required placeholder="Ej: Maria Gonzalez">
-
-                <label for="telefono">WhatsApp / Teléfono</label>
-                <input type="tel" id="telefono" required placeholder="Ej: 3425123456">
-
-                <label for="entrega">Método de Entrega</label>
-                <select id="entrega" required>
-                    <option value="Envío a domicilio (Santa Fe Cap.)">Envío a domicilio (Santa Fe Cap.)</option>
-                    <option value="Retiro en Punto de Encuentro">Retiro en Punto de Encuentro</option>
-                </select>
-
-                <label for="direccion">Dirección de Entrega / Notas</label>
-                <input type="text" id="direccion" required placeholder="Calle, Número, Barrio">
-
-                <button type="submit" class="btn-primary btn-pay">Ir a Pagar con Mercado Pago</button>
-            </form>
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="spinner-box">
+            <div class="spinner"></div>
+            <h3>Preparando tu orden...</h3>
+            <p>Estamos conectando con Mercado Pago. Aguarde unos segundos por favor.</p>
         </div>
     </div>
 
-    <div class="loading-overlay" id="loading-spinner">
-        <div class="spinner"></div>
-        <p>Conectando con la pasarela de pago...<br><small>Aguardá unos segundos por favor.</small></p>
-    </div>
+    <footer>
+        <p>© Frutos rojos Santa Fe - Todos los derechos reservados</p>
+    </footer>
 
     <script src="app.js"></script>
 </body>
