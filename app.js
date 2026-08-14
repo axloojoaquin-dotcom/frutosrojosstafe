@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://tu-api-en-render.onrender.com"; // Reemplazar tras desplegar
+const BACKEND_URL = "https://frutosrojosstafe.onrender.com"; // Reemplazar tras desplegar
 
 // Precio unitario actualizado
 const PRECIO_UNITARIO = 12500;
