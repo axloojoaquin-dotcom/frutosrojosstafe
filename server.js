@@ -1,27 +1,58 @@
 const express = require("express");
 const cors = require("cors");
+// Importar Mercado Pago
+const { MercadoPagoConfig, Preference } = require("mercadopago");
 
 const app = express();
-app.use(cors()); // Importante para permitir conexiones desde GitHub Pages
+app.use(cors());
 app.use(express.json());
+
+// 1. Configurar tus credenciales de Mercado Pago
+const client = new MercadoPagoConfig({ 
+  accessToken: "APP_USR-1987244030595183-081408-791f6afdde7daee78dd3faefe0b727df-3615684522" // Pega aquí tu Access Token
+});
 
 app.get("/", (req, res) => {
   res.send("El servidor de Frutos Rojos está funcionando correctamente");
 });
 
-// Esta es la ruta que llama tu app.js:
+// 2. Ruta para crear la preferencia de pago
 app.post("/api/crear-orden", async (req, res) => {
-  const { cliente_nombre, cliente_telefono, direccion, metodo_entrega, cantidad_kg } = req.body;
+  const { cantidad_kg, cliente_nombre } = req.body;
+  const precioUnitario = 12500; // Precio por kg
 
   try {
-    // Aquí agregas la lógica con Mercado Pago o tu respuesta
-    // Por ejemplo, para probar:
-    res.json({ 
-      status: "ok",
-      init_point: "https://www.mercadopago.com.ar" // Aquí irá tu link dinámico de MP
+    const preference = new Preference(client);
+
+    // Crear la preferencia con los datos de la compra
+    const result = await preference.create({
+      body: {
+        items: [
+          {
+            title: `Frutos Rojos (${cantidad_kg} kg)`,
+            quantity: Number(cantidad_kg),
+            unit_price: Number(precioUnitario),
+            currency_id: "ARS",
+          },
+        ],
+        back_urls: {
+          success: "https://axloojoaquin-dotcom.github.io/frutosrojosstafe/",
+          failure: "https://axloojoaquin-dotcom.github.io/frutosrojosstafe/",
+          pending: "https://axloojoaquin-dotcom.github.io/frutosrojosstafe/",
+        },
+        auto_return: "approved",
+      },
     });
+
+    // 3. Responder al frontend con el init_point generado automáticamente
+    res.json({
+      status: "ok",
+      init_point: result.init_point // URL dinámica donde el cliente realiza el pago
+    });
+
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error al crear preferencia:", error);
+    res.status(500).json({ error: "Error al generar la orden de pago" });
   }
 });
 
