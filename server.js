@@ -60,3 +60,14 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
+
+// Comprobar si Render leyó la variable
+if (!process.env.MP_ACCESS_TOKEN) {
+  console.error("❌ ERROR: No se encontró la variable MP_ACCESS_TOKEN");
+} else {
+  console.log("✅ Variable MP_ACCESS_TOKEN detectada correctamente");
+}
+
+const client = new MercadoPagoConfig({ 
+  accessToken: process.env.MP_ACCESS_TOKEN 
+});
