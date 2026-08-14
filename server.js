@@ -9,7 +9,7 @@ app.use(express.json());
 
 // 1. Configurar tus credenciales de Mercado Pago
 const client = new MercadoPagoConfig({ 
-  accessToken: "APP_USR-1987244030595183-081408-791f6afdde7daee78dd3faefe0b727df-3615684522" // Pega aquí tu Access Token
+  accessToken: process.env.MP_ACCESS_TOKEN 
 });
 
 app.get("/", (req, res) => {
