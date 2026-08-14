@@ -1,17 +1,23 @@
 const express = require("express");
 const cors = require("cors");
-// Importar Mercado Pago
 const { MercadoPagoConfig, Preference } = require("mercadopago");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 1. Configurar tus credenciales de Mercado Pago
+// 1. Diagnóstico e inicialización de Mercado Pago
+if (!process.env.MP_ACCESS_TOKEN) {
+  console.error("❌ ERROR: No se encontró la variable MP_ACCESS_TOKEN en las variables de entorno.");
+} else {
+  console.log("✅ Variable MP_ACCESS_TOKEN detectada correctamente.");
+}
+
 const client = new MercadoPagoConfig({ 
-  accessToken: process.env.MP_ACCESS_TOKEN 
+  accessToken: process.env.MP_ACCESS_TOKEN || ""
 });
 
+// Ruta de prueba de estado
 app.get("/", (req, res) => {
   res.send("El servidor de Frutos Rojos está funcionando correctamente");
 });
@@ -44,30 +50,23 @@ app.post("/api/crear-orden", async (req, res) => {
       },
     });
 
-    // 3. Responder al frontend con el init_point generado automáticamente
+    // Responder al frontend con el init_point
     res.json({
       status: "ok",
-      init_point: result.init_point // URL dinámica donde el cliente realiza el pago
+      init_point: result.init_point
     });
 
   } catch (error) {
-    console.error("Error al crear preferencia:", error);
-    res.status(500).json({ error: "Error al generar la orden de pago" });
+    console.error("Error exacto al crear preferencia en Mercado Pago:", error);
+    res.status(500).json({ 
+      error: "Error al generar la orden de pago", 
+      detalles: error.message 
+    });
   }
 });
 
+// 3. Iniciar el servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
-
-// Comprobar si Render leyó la variable
-if (!process.env.MP_ACCESS_TOKEN) {
-  console.error("❌ ERROR: No se encontró la variable MP_ACCESS_TOKEN");
-} else {
-  console.log("✅ Variable MP_ACCESS_TOKEN detectada correctamente");
-}
-
-const client = new MercadoPagoConfig({ 
-  accessToken: process.env.MP_ACCESS_TOKEN 
 });
