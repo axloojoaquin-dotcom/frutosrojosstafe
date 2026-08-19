@@ -16,27 +16,55 @@
     </header>
 
     <main class="container">
-        <div class="product-card">
-            <div class="badge">Frescos & Congelados</div>
-            <div class="img-container">
-                <img src="producto.jpg" alt="Frutos Rojos Congelados">
-            </div>
-            <h2>Frutos Rojos Congelados (1kg)</h2>
-            <p class="description">Selección premium de frutillas, frambuesas, moras y arándanos. Ideal para smoothies y postres.</p>
-            
-            <div class="price" id="precio-unitario">$12.500 / kg</div>
+        <div class="products-grid">
 
-            <div class="quantity-selector">
-                <button type="button" id="btn-minus">-</button>
-                <span id="cantidad">1</span> kg
-                <button type="button" id="btn-plus">+</button>
+            <div class="product-card" data-id="1" data-nombre="Mix Frutos Rojos (1kg)" data-precio="12500">
+                <div class="badge">Frescos & Congelados</div>
+                <div class="img-container">
+                    <img src="producto.jpg" alt="Mix Frutos Rojos">
+                </div>
+                <h2>Mix Frutos Rojos (1kg)</h2>
+                <p class="description">Selección premium de frutillas, frambuesas, moras y arándanos. Ideal para smoothies y postres.</p>
+                <div class="price">$12.500 / kg</div>
+                <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
             </div>
 
-            <div class="total-price">Total: <strong id="total-text">$12.500</strong></div>
+            <div class="product-card" data-id="2" data-nombre="Arándanos (1kg)" data-precio="11000">
+                <div class="badge">100% Natural</div>
+                <div class="img-container">
+                    <img src="arandanos.jpg" alt="Arándanos">
+                </div>
+                <h2>Arándanos (1kg)</h2>
+                <p class="description">Arándanos seleccionados congelados. Ricos en antioxidantes y sabor natural.</p>
+                <div class="price">$11.000 / kg</div>
+                <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
+            </div>
 
-            <button class="btn-primary" id="btn-abrir-checkout">Comprar Ahora</button>
+            <div class="product-card" data-id="3" data-nombre="Frutillas (1kg)" data-precio="8000">
+                <div class="badge">Calidad Premium</div>
+                <div class="img-container">
+                    <img src="frutillas.jpg" alt="Frutillas">
+                </div>
+                <h2>Frutillas (1kg)</h2>
+                <p class="description">Frutillas congeladas al punto justo de maduración. Dulces y listas para usar.</p>
+                <div class="price">$8.0
+                    00 / kg</div>
+                <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
+            </div>
+
         </div>
     </main>
+
+    <section class="cart-section">
+        <h3>Tu Carrito 🛒</h3>
+        <div id="cart-items" class="cart-items">
+            <p class="cart-empty">El carrito está vacío.</p>
+        </div>
+        <div class="cart-total">
+            Total: <strong id="cart-total-text">$0</strong>
+        </div>
+        <button class="btn-primary" id="btn-abrir-checkout" disabled>Comprar Ahora</button>
+    </section>
 
     <div class="modal-overlay" id="modal-checkout">
         <div class="modal-content">
