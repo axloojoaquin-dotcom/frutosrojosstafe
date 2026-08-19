@@ -1,42 +1,88 @@
-const BACKEND_URL = "https://frutosrojosstafe.onrender.com"; // Reemplazar tras desplegar
+const BACKEND_URL = "https://tu-api-en-render.onrender.com"; // Reemplazar tras desplegar
 
-// Precio unitario actualizado
-const PRECIO_UNITARIO = 12500;
-let cantidad = 1;
+let carrito = [];
 
 // Elementos del DOM
-const cantidadEl = document.getElementById("cantidad");
-const totalTextEl = document.getElementById("total-text");
-const btnMinus = document.getElementById("btn-minus");
-const btnPlus = document.getElementById("btn-plus");
+const cartContainer = document.getElementById("cart-items");
+const cartTotalText = document.getElementById("cart-total-text");
+const btnAbrirCheckout = document.getElementById("btn-abrir-checkout");
 
 const modal = document.getElementById("modal-checkout");
-const btnAbrir = document.getElementById("btn-abrir-checkout");
 const btnCerrar = document.getElementById("btn-cerrar-modal");
 const form = document.getElementById("form-pedido");
 const spinner = document.getElementById("loading-spinner");
 
-// Control de cantidad (+ / -)
-btnPlus.addEventListener("click", () => {
-    cantidad++;
-    actualizarTotal();
+// Event listeners para agregar productos
+document.querySelectorAll(".btn-add-cart").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        const card = e.target.closest(".product-card");
+        const id = card.getAttribute("data-id");
+        const nombre = card.getAttribute("data-nombre");
+        const precio = Number(card.getAttribute("data-precio"));
+
+        agregarAlCarrito(id, nombre, precio);
+    });
 });
 
-btnMinus.addEventListener("click", () => {
-    if (cantidad > 1) {
-        cantidad--;
-        actualizarTotal();
+function agregarAlCarrito(id, nombre, precio) {
+    const existe = carrito.find((item) => item.id === id);
+    if (existe) {
+        existe.cantidad++;
+    } else {
+        carrito.push({ id, nombre, precio, cantidad: 1 });
     }
-});
-
-function actualizarTotal() {
-    cantidadEl.innerText = cantidad;
-    const total = cantidad * PRECIO_UNITARIO;
-    totalTextEl.innerText = `$${total.toLocaleString("es-AR")}`;
+    actualizarCarritoUI();
 }
 
-// Abrir/Cerrar Modal
-btnAbrir.addEventListener("click", () => modal.style.display = "flex");
+function cambiarCantidad(id, cambio) {
+    const item = carrito.find((i) => i.id === id);
+    if (!item) return;
+
+    item.cantidad += cambio;
+    if (item.cantidad <= 0) {
+        carrito = carrito.filter((i) => i.id !== id);
+    }
+    actualizarCarritoUI();
+}
+
+function actualizarCarritoUI() {
+    cartContainer.innerHTML = "";
+
+    if (carrito.length === 0) {
+        cartContainer.innerHTML = '<p class="cart-empty">El carrito está vacío.</p>';
+        cartTotalText.innerText = "$0";
+        btnAbrirCheckout.disabled = true;
+        return;
+    }
+
+    let total = 0;
+    let totalCantidadKg = 0;
+
+    carrito.forEach((item) => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+        totalCantidadKg += item.cantidad;
+
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+            <span><strong>${item.nombre}</strong> (${item.cantidad} kg)</span>
+            <div class="cart-item-controls">
+                <button onclick="cambiarCantidad('${item.id}', -1)">-</button>
+                <span>${item.cantidad}</span>
+                <button onclick="cambiarCantidad('${item.id}', 1)">+</button>
+            </div>
+            <span>$${subtotal.toLocaleString("es-AR")}</span>
+        `;
+        cartContainer.appendChild(div);
+    });
+
+    cartTotalText.innerText = `$${total.toLocaleString("es-AR")}`;
+    btnAbrirCheckout.disabled = false;
+}
+
+// Modal control
+btnAbrirCheckout.addEventListener("click", () => modal.style.display = "flex");
 btnCerrar.addEventListener("click", () => modal.style.display = "none");
 
 // Envío del Formulario
@@ -45,12 +91,15 @@ form.addEventListener("submit", async (e) => {
     modal.style.display = "none";
     spinner.style.display = "flex";
 
+    // Sumatoria total de Kilos solicitados
+    const totalKg = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+
     const payload = {
         cliente_nombre: document.getElementById("nombre").value,
         cliente_telefono: document.getElementById("telefono").value,
         direccion: document.getElementById("direccion").value,
         metodo_entrega: document.getElementById("entrega").value,
-        cantidad_kg: cantidad
+        cantidad_kg: totalKg
     };
 
     try {
@@ -63,7 +112,7 @@ form.addEventListener("submit", async (e) => {
         const data = await res.json();
 
         if (data.init_point) {
-            window.location.href = data.init_point; // Redirige a Mercado Pago
+            window.location.href = data.init_point;
         } else {
             alert("Ocurrió un error al generar la orden de pago.");
             spinner.style.display = "none";
