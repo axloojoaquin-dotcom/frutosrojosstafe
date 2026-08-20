@@ -13,57 +13,117 @@
     <header class="header">
         <img src="icono.jpg" alt="Logo Frutos Rojos Santa Fe" class="logo-header">
         <h1>Frutos rojos Santa Fe</h1>
+        
+        <nav class="navbar">
+            <a href="#inicio">Inicio</a>
+            <a href="#tienda">Tienda</a>
+            <a href="#nosotros">Quiénes Somos</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
     </header>
 
-    <main class="container">
-        <div class="products-grid">
-
-            <div class="product-card" data-id="1" data-nombre="Mix Frutos Rojos (1kg)" data-precio="12500">
-                <div class="badge">Frescos & Congelados</div>
-                <div class="img-container">
-                    <img src="producto.jpg" alt="Mix Frutos Rojos">
-                </div>
-                <h2>Mix Frutos Rojos (1kg) </h2>
-                <p class="description">Selección premium de frutillas, frambuesas, moras y arándanos. Ideal para smoothies y postres.</p>
-                <div class="price">$12.500 / kg</div>
-                <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
-            </div>
-
-            <div class="product-card" data-id="2" data-nombre="Arándanos (1kg)" data-precio="11000">
-                <div class="badge">100% Natural</div>
-                <div class="img-container">
-                    <img src="arandanos.jpg" alt="Arándanos">
-                </div>
-                <h2>Arándanos (1kg) </h2>
-                <p class="description">Arándanos seleccionados congelados. Ricos en antioxidantes y sabor natural.</p>
-                <div class="price">$11.000 / kg</div>
-                <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
-            </div>
-
-            <div class="product-card" data-id="3" data-nombre="Frutillas (1kg)" data-precio="8000">
-                <div class="badge">Calidad Premium</div>
-                <div class="img-container">
-                    <img src="frutillas.jpg" alt="Frutillas">
-                </div>
-                <h2>Frutillas (1kg) </h2>
-                <p class="description">Frutillas congeladas al punto justo de maduración. Dulces y listas para usar.</p>
-                <div class="price">$8.000 / kg</div>
-                <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
-            </div>
-
+    <section id="inicio" class="hero-section">
+        <div class="hero-content">
+            <h2>Frutos Rojos Frescos y Congelados (IQF)</h2>
+            <p>Calidad Premium directamente a la puerta de tu casa o negocio en Santa Fe.</p>
+            <a href="#tienda" class="btn-primary btn-hero">Ver Productos</a>
         </div>
-    </main>
-
-    <section class="cart-section">
-        <h3>Tu Carrito 🛒</h3>
-        <div id="cart-items" class="cart-items">
-            <p class="cart-empty">El carrito está vacío.</p>
-        </div>
-        <div class="cart-total">
-            Total: <strong id="cart-total-text">$0</strong>
-        </div>
-        <button class="btn-primary" id="btn-abrir-checkout" disabled>Comprar Ahora</button>
     </section>
+
+    <main class="container">
+        <section id="tienda" class="store-section">
+            <h2 class="section-title">Nuestra Tienda 🛒</h2>
+            
+            <div class="products-grid">
+                <div class="product-card" data-id="1" data-nombre="Mix Frutos Rojos" data-precio="12500">
+                    <div class="badge">Frescos & Congelados</div>
+                    <div class="img-container">
+                        <img src="producto.jpg" alt="Mix Frutos Rojos">
+                    </div>
+                    <h2>Mix Frutos Rojos (1kg)</h2>
+                    <p class="description">Selección premium de frutillas, frambuesas, moras y arándanos. Ideal para smoothies y postres.</p>
+                    <div class="price">$12.500 / kg</div>
+                    <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
+                </div>
+
+                <div class="product-card" data-id="2" data-nombre="Arándanos" data-precio="12500">
+                    <div class="badge">100% Natural</div>
+                    <div class="img-container">
+                        <img src="arandanos.jpg" alt="Arándanos">
+                    </div>
+                    <h2>Arándanos (1kg)</h2>
+                    <p class="description">Arándanos seleccionados congelados. Ricos en antioxidantes y sabor natural.</p>
+                    <div class="price">$12.500 / kg</div>
+                    <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
+                </div>
+
+                <div class="product-card" data-id="3" data-nombre="Frutillas" data-precio="12500">
+                    <div class="badge">Calidad Premium</div>
+                    <div class="img-container">
+                        <img src="frutillas.jpg" alt="Frutillas">
+                    </div>
+                    <h2>Frutillas (1kg)</h2>
+                    <p class="description">Frutillas congeladas al punto justo de maduración. Dulces y listas para usar.</p>
+                    <div class="price">$12.500 / kg</div>
+                    <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div id="carrito" class="cart-section">
+                <h3>Tu Carrito 🛒</h3>
+                <div id="cart-items" class="cart-items">
+                    <p class="cart-empty">El carrito está vacío.</p>
+                </div>
+                <div class="cart-total">
+                    Total: <strong id="cart-total-text">$0</strong>
+                </div>
+                <button class="btn-primary" id="btn-abrir-checkout" disabled>Comprar Ahora</button>
+            </div>
+        </section>
+
+        <section id="nosotros" class="info-card">
+            <h2 class="section-title">Quiénes Somos 🍓</h2>
+            
+            <div class="about-gallery">
+                <img src="producto.jpg" alt="Mix Frutos Rojos" class="gallery-img">
+                <img src="icono.jpg" alt="Logo Marca" class="gallery-logo">
+                <img src="arandanos.jpg" alt="Arándanos" class="gallery-img">
+                <img src="frutillas.jpg" alt="Frutillas" class="gallery-img">
+            </div>
+
+            <div class="about-text">
+                <p class="highlight-text">🍓 ¡HOLA! SOMOS FRUTOS ROJOS SANTA FE 🍓</p>
+                <p>Tu distribuidor local de confianza en productos congelados con tecnología IQF.</p>
+                <p>Nos dedicamos a acercarte los mejores frutos rojos congelados, manteniendo intacto su sabor, textura y valor nutricional desde el origen hasta la puerta de tu casa o negocio. ❄️</p>
+                
+                <h3>✨ ¿Por qué elegirnos?</h3>
+                <ul class="benefits-list">
+                    <li>🌱 <strong>100% Naturales:</strong> Sin aditivos ni conservantes.</li>
+                    <li>🌾 <strong>Sin T.A.C.C.:</strong> Productos aptos para celíacos.</li>
+                    <li>⏱️ <strong>Prácticos:</strong> Usás solo lo que necesitás y el resto vuelve al congelador.</li>
+                    <li>📦 <strong>Minorista y Mayorista:</strong> Venta individual por kilo y por caja para comercios, cafeterías y gastronómicos.</li>
+                </ul>
+
+                <p class="distributor-note">Somos distribuidores de <strong>ConoSud Bajo Cero</strong>, garantizándote calidad premium durante todo el año.</p>
+                <p class="call-to-action">📲 Hacé tu pedido o pedinos el catálogo al WhatsApp: <strong>342 651-7918</strong></p>
+                <p><strong>¡Sumá frescura y practicidad a tu día a día! 🥤🍰</strong></p>
+            </div>
+        </section>
+
+        <section id="contacto" class="info-card contact-card">
+            <h2 class="section-title">Contacto 📞</h2>
+            <p>¿Tenés alguna consulta o querés realizar un pedido mayorista? Escribinos por nuestros canales oficiales:</p>
+            
+            <div class="contact-buttons">
+                <a href="https://wa.me/5493426517918" target="_blank" class="btn-social btn-wa">
+                    💬 Escribinos por WhatsApp
+                </a>
+                <a href="https://www.instagram.com/frutos.rojos.santa.fe/" target="_blank" class="btn-social btn-ig">
+                    📸 Seguinos en Instagram
+                </a>
+            </div>
+        </section>
+    </main>
 
     <div class="modal-overlay" id="modal-checkout">
         <div class="modal-content">
