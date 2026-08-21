@@ -6,7 +6,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Diagnóstico e inicialización de Mercado Pago
 if (!process.env.MP_ACCESS_TOKEN) {
   console.error("❌ ERROR: No se encontró la variable MP_ACCESS_TOKEN en las variables de entorno.");
 } else {
@@ -21,14 +20,12 @@ app.get("/", (req, res) => {
   res.send("El servidor de Frutos Rojos está funcionando correctamente");
 });
 
-// Ruta para crear la preferencia de pago
 app.post("/api/crear-orden", async (req, res) => {
   const { items } = req.body;
 
   try {
     const preference = new Preference(client);
 
-    // Mapeamos los ítems que llegan desde el frontend
     const mpItems = items.map((prod) => ({
       title: `${prod.nombre} (${prod.cantidad} kg)`,
       quantity: Number(prod.cantidad),
