@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://frutosrojosstafe.onrender.com"; // Reemplazar con tu URL real de Render
+const BACKEND_URL = "https://frutosrojosstafe.onrender.com";
 
 let carrito = [];
 
@@ -94,7 +94,7 @@ form.addEventListener("submit", async (e) => {
         cliente_telefono: document.getElementById("telefono").value,
         direccion: document.getElementById("direccion").value,
         metodo_entrega: document.getElementById("entrega").value,
-        items: carrito // Enviamos el detalle real de productos
+        items: carrito
     };
 
     try {
