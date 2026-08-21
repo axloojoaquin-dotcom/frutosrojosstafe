@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 1. Diagnóstico e inicialización de Mercado Pago
+// Diagnóstico e inicialización de Mercado Pago
 if (!process.env.MP_ACCESS_TOKEN) {
   console.error("❌ ERROR: No se encontró la variable MP_ACCESS_TOKEN en las variables de entorno.");
 } else {
@@ -17,30 +17,28 @@ const client = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN || ""
 });
 
-// Ruta de prueba de estado
 app.get("/", (req, res) => {
   res.send("El servidor de Frutos Rojos está funcionando correctamente");
 });
 
-// 2. Ruta para crear la preferencia de pago
+// Ruta para crear la preferencia de pago
 app.post("/api/crear-orden", async (req, res) => {
-  const { cantidad_kg, cliente_nombre } = req.body;
-  const precioUnitario = 12500; // Precio por kg
+  const { items } = req.body;
 
   try {
     const preference = new Preference(client);
 
-    // Crear la preferencia con los datos de la compra
+    // Mapeamos los ítems que llegan desde el frontend
+    const mpItems = items.map((prod) => ({
+      title: `${prod.nombre} (${prod.cantidad} kg)`,
+      quantity: Number(prod.cantidad),
+      unit_price: Number(prod.precio),
+      currency_id: "ARS",
+    }));
+
     const result = await preference.create({
       body: {
-        items: [
-          {
-            title: `Frutos Rojos (${cantidad_kg} kg)`,
-            quantity: Number(cantidad_kg),
-            unit_price: Number(precioUnitario),
-            currency_id: "ARS",
-          },
-        ],
+        items: mpItems,
         back_urls: {
           success: "https://axloojoaquin-dotcom.github.io/frutosrojosstafe/",
           failure: "https://axloojoaquin-dotcom.github.io/frutosrojosstafe/",
@@ -50,7 +48,6 @@ app.post("/api/crear-orden", async (req, res) => {
       },
     });
 
-    // Responder al frontend con el init_point
     res.json({
       status: "ok",
       init_point: result.init_point
@@ -65,7 +62,6 @@ app.post("/api/crear-orden", async (req, res) => {
   }
 });
 
-// 3. Iniciar el servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
