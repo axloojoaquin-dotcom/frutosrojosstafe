@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://tu-api-en-render.onrender.com"; // Reemplazar tras desplegar
+const BACKEND_URL = "https://tu-api-en-render.onrender.com"; // Reemplazar con tu URL real de Render
 
 let carrito = [];
 
@@ -56,21 +56,19 @@ function actualizarCarritoUI() {
     }
 
     let total = 0;
-    let totalCantidadKg = 0;
 
     carrito.forEach((item) => {
         const subtotal = item.precio * item.cantidad;
         total += subtotal;
-        totalCantidadKg += item.cantidad;
 
         const div = document.createElement("div");
         div.className = "cart-item";
         div.innerHTML = `
             <span><strong>${item.nombre}</strong> (${item.cantidad} kg)</span>
             <div class="cart-item-controls">
-                <button onclick="cambiarCantidad('${item.id}', -1)">-</button>
+                <button type="button" onclick="cambiarCantidad('${item.id}', -1)">-</button>
                 <span>${item.cantidad}</span>
-                <button onclick="cambiarCantidad('${item.id}', 1)">+</button>
+                <button type="button" onclick="cambiarCantidad('${item.id}', 1)">+</button>
             </div>
             <span>$${subtotal.toLocaleString("es-AR")}</span>
         `;
@@ -91,15 +89,12 @@ form.addEventListener("submit", async (e) => {
     modal.style.display = "none";
     spinner.style.display = "flex";
 
-    // Sumatoria total de Kilos solicitados
-    const totalKg = carrito.reduce((acc, item) => acc + item.cantidad, 0);
-
     const payload = {
         cliente_nombre: document.getElementById("nombre").value,
         cliente_telefono: document.getElementById("telefono").value,
         direccion: document.getElementById("direccion").value,
         metodo_entrega: document.getElementById("entrega").value,
-        cantidad_kg: totalKg
+        items: carrito // Enviamos el detalle real de productos
     };
 
     try {
