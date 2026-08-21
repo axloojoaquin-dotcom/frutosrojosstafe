@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://tu-api-en-render.onrender.com"; // Reemplazar con tu URL real de Render
+const BACKEND_URL = "https://frutosrojosstafe.onrender.com"; // Reemplazar con tu URL real de Render
 
 let carrito = [];
 
