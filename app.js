@@ -8,7 +8,7 @@ const PRODUCTOS = [
         id: "1",
         nombre: "Mix Frutos Rojos",
         descripcion: "Selección premium de frutillas, frambuesas, moras y arándanos. Ideal para smoothies y postres.",
-        precio: 13000,
+        precio: 13500,
         badge: "Frescos & Congelados",
         imagen: "producto.jpg",
         visible: true // Cambiar a false si querés ocultarlo
@@ -17,18 +17,27 @@ const PRODUCTOS = [
         id: "2",
         nombre: "Arándanos",
         descripcion: "Arándanos seleccionados congelados. Ricos en antioxidantes y sabor natural.",
-        precio: 11000,
+        precio: 12500,
         badge: "100% Natural",
         imagen: "arandanos.jpg",
-        visible: true
+        visible: false
     },
     {
         id: "3",
         nombre: "Frutillas",
         descripcion: "Frutillas congeladas al punto justo de maduración. Dulces y listas para usar.",
-        precio: 8000,
+        precio: 9000,
         badge: "Calidad Premium",
         imagen: "frutillas.jpg",
+        visible: true
+    },
+    {
+        id: "4",
+        nombre: "Mix Relleno Tarta Espinaca congelado IQF",
+        descripcion: "Una mezcla de hojas de espinaca con cubos de pimiento rojo y cubos de cebollF",
+        precio: 8500,
+        badge: "Idal para la cocina",
+        imagen: "mixtarta.jpg",
         visible: true
     }
 ];
