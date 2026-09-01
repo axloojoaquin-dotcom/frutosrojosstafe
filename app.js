@@ -1,5 +1,38 @@
 const BACKEND_URL = "https://frutosrojosstafe.onrender.com";
 
+// ==========================================
+// 1. CATÁLOGO DINÁMICO DE PRODUCTOS
+// ==========================================
+const PRODUCTOS = [
+    {
+        id: "1",
+        nombre: "Mix Frutos Rojos",
+        descripcion: "Selección premium de frutillas, frambuesas, moras y arándanos. Ideal para smoothies y postres.",
+        precio: 13000,
+        badge: "Frescos & Congelados",
+        imagen: "producto.jpg",
+        visible: true // Cambiar a false si querés ocultarlo
+    },
+    {
+        id: "2",
+        nombre: "Arándanos",
+        descripcion: "Arándanos seleccionados congelados. Ricos en antioxidantes y sabor natural.",
+        precio: 11000,
+        badge: "100% Natural",
+        imagen: "arandanos.jpg",
+        visible: true
+    },
+    {
+        id: "3",
+        nombre: "Frutillas",
+        descripcion: "Frutillas congeladas al punto justo de maduración. Dulces y listas para usar.",
+        precio: 8000,
+        badge: "Calidad Premium",
+        imagen: "frutillas.jpg",
+        visible: true
+    }
+];
+
 let carrito = [];
 
 // Elementos del DOM
@@ -12,18 +45,51 @@ const btnCerrar = document.getElementById("btn-cerrar-modal");
 const form = document.getElementById("form-pedido");
 const spinner = document.getElementById("loading-spinner");
 
-// Event listeners para agregar productos
-document.querySelectorAll(".btn-add-cart").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-        const card = e.target.closest(".product-card");
-        const id = card.getAttribute("data-id");
-        const nombre = card.getAttribute("data-nombre");
-        const precio = Number(card.getAttribute("data-precio"));
+// ==========================================
+// 2. RENDERIZAR PRODUCTOS EN PANTALLA
+// ==========================================
+function renderizarProductos() {
+    const grid = document.querySelector(".products-grid");
+    if (!grid) return;
 
-        agregarAlCarrito(id, nombre, precio);
+    grid.innerHTML = ""; // Limpiamos la grilla HTML
+
+    // Filtramos solo los productos que tengan visible: true
+    const productosVisibles = PRODUCTOS.filter(prod => prod.visible);
+
+    productosVisibles.forEach(prod => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.setAttribute("data-id", prod.id);
+        card.setAttribute("data-nombre", prod.nombre);
+        card.setAttribute("data-precio", prod.precio);
+
+        card.innerHTML = `
+            <div class="badge">${prod.badge}</div>
+            <div class="img-container">
+                <img src="${prod.imagen}" alt="${prod.nombre}">
+            </div>
+            <h2>${prod.nombre} (1kg)</h2>
+            <p class="description">${prod.descripcion}</p>
+            <div class="price">$${prod.precio.toLocaleString("es-AR")} / kg</div>
+            <button class="btn-primary btn-add-cart">Agregar al Carrito</button>
+        `;
+
+        // Le agregamos la función al botón de este producto específico
+        card.querySelector(".btn-add-cart").addEventListener("click", () => {
+            agregarAlCarrito(prod.id, prod.nombre, prod.precio);
+        });
+
+        grid.appendChild(card);
     });
-});
+}
 
+// Ejecutamos la función apenas cargue la página
+document.addEventListener("DOMContentLoaded", renderizarProductos);
+
+// ==========================================
+// 3. LÓGICA DEL CARRITO Y CHECKOUT
+// ==========================================
 function agregarAlCarrito(id, nombre, precio) {
     const existe = carrito.find((item) => item.id === id);
     if (existe) {
@@ -34,7 +100,8 @@ function agregarAlCarrito(id, nombre, precio) {
     actualizarCarritoUI();
 }
 
-function cambiarCantidad(id, cambio) {
+// Hacemos global cambiarCantidad para poder usarla en el onclick del HTML generado
+window.cambiarCantidad = function(id, cambio) {
     const item = carrito.find((i) => i.id === id);
     if (!item) return;
 
@@ -43,7 +110,7 @@ function cambiarCantidad(id, cambio) {
         carrito = carrito.filter((i) => i.id !== id);
     }
     actualizarCarritoUI();
-}
+};
 
 function actualizarCarritoUI() {
     cartContainer.innerHTML = "";
